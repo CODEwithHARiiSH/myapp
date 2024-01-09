@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  p Welcome to #{title} club
+  body
+  p Enter Movie name to update database
+    form(action='/movies/add', method='post')
+      label(for='tittle') movie:
+      input(type='tittle', name='tittle', required)
+      br
+      label(for='genre') Genre:
+      input(type='genre', name='genre', required)
+      br
+      button(type='submit') Submit
+
