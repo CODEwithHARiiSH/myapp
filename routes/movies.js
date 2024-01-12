@@ -25,6 +25,18 @@ router.get('/movieslist', async (req, res) => {
 router.post('/movieslist/add', async (req, res) => {
 
     const { title, directorId } = req.body;
+    try{
+    const existingDirector = await prisma.director.findUnique({
+      where: {
+        id: parseInt(directorId),
+      },
+    });
+    if (!existingDirector) {
+      res.json({
+        message: 'Director not found',
+      });
+    }
+    else{
     const createdMovie = await prisma.movie.create({
       data: {
         title : title,
@@ -35,10 +47,17 @@ router.post('/movieslist/add', async (req, res) => {
       }
     });
 
-    return res.json({
+    res.json({
       message: 'Successfully added movie',
       data: createdMovie,
     });
+  }
+  }
+  catch {
+   res.json({
+    message:'Error adding movie'
+   })
+  }
 });
 
 
